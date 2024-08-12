@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let slideIndexes = [1, 1, 1];
     const sliders = ["slider1", "slider2", "slider3"];
     let autoSlideIntervals = [];
-    let userInteracted = [false, false, false];
 
     function showSlides(n, no) {
         let slider = document.getElementById(sliders[no - 1]);
@@ -17,16 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function startAutoSlide(no) {
-        if (!userInteracted[no - 1]) {
-            autoSlideIntervals[no - 1] = setInterval(function() {
-                slideIndexes[no - 1]++;
-                showSlides(slideIndexes[no - 1], no);
-            }, 5000);
-        }
-    }
-
-    function stopAutoSlide(no) {
-        clearInterval(autoSlideIntervals[no - 1]);
+        autoSlideIntervals[no - 1] = setInterval(function() {
+            slideIndexes[no - 1]++;
+            showSlides(slideIndexes[no - 1], no);
+        }, 5000);
     }
 
     sliders.forEach((sliderId, index) => {
@@ -34,36 +27,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (slider) {
             showSlides(slideIndexes[index], index + 1);
             startAutoSlide(index + 1);
-
-            let touchstartX = 0;
-            let touchendX = 0;
-
-            slider.addEventListener('touchstart', function(event) {
-                touchstartX = event.changedTouches[0].screenX;
-                stopAutoSlide(index + 1);
-                userInteracted[index] = true;
-            });
-
-            slider.addEventListener('touchend', function(event) {
-                touchendX = event.changedTouches[0].screenX;
-                handleGesture(index + 1);
-            });
-
-            function handleGesture(no) {
-                if (touchendX < touchstartX) {
-                    slideIndexes[no - 1]++;
-                    showSlides(slideIndexes[no - 1], no);
-                }
-                if (touchendX > touchstartX) {
-                    slideIndexes[no - 1]--;
-                    showSlides(slideIndexes[no - 1], no);
-                }
-            }
-
-            // Suppression du code qui arrêtait le slider lors d'un clic sur une image.
         }
     });
 
+    // Gestion du menu mobile
     const toggleMenu = document.querySelector('.toggle-menu');
     const navLinks = document.querySelector('.nav-links');
     const dropdowns = document.querySelectorAll('.dropdown');
