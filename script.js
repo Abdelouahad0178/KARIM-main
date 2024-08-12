@@ -59,6 +59,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Désactiver la navigation du slider sur clic et permettre uniquement la redirection
+    document.querySelectorAll('.slide a').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.stopPropagation(); // Empêche la propagation de l'événement de clic à d'autres éléments comme la navigation du slider
+        });
+    });
+
     // Gestion du menu mobile
     const toggleMenu = document.querySelector('.toggle-menu');
     const navLinks = document.querySelector('.nav-links');
