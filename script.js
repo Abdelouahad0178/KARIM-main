@@ -1,25 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Indices pour suivre la slide actuelle pour chaque slider
     let slideIndexes = [1, 1, 1];
     const sliders = ["slider1", "slider2", "slider3"];
     let autoSlideIntervals = [];
-    let userInteracted = [false, false, false]; // Indicateur d'interaction utilisateur pour chaque slider
+    let userInteracted = [false, false, false];
 
-    // Fonction pour afficher la slide actuelle
     function showSlides(n, no) {
-        let i;
         let slider = document.getElementById(sliders[no - 1]);
-        if (!slider) return;  // Si le slider n'existe pas, on sort de la fonction
+        if (!slider) return;
         let slides = slider.getElementsByClassName("slide");
-        if (n > slides.length) { slideIndexes[no - 1] = 1 } // Revenir à la première slide
-        if (n < 1) { slideIndexes[no - 1] = slides.length } // Aller à la dernière slide
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none"; // Cacher toutes les slides
+        if (n > slides.length) { slideIndexes[no - 1] = 1 }
+        if (n < 1) { slideIndexes[no - 1] = slides.length }
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
         }
-        slides[slideIndexes[no - 1] - 1].style.display = "block"; // Afficher la slide actuelle
+        slides[slideIndexes[no - 1] - 1].style.display = "block";
     }
 
-    // Fonction pour démarrer le défilement automatique
     function startAutoSlide(no) {
         if (!userInteracted[no - 1]) {
             autoSlideIntervals[no - 1] = setInterval(function() {
@@ -29,56 +25,50 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Fonction pour arrêter le défilement automatique
     function stopAutoSlide(no) {
         clearInterval(autoSlideIntervals[no - 1]);
     }
 
-    // Initialisation des sliders et configuration du swipe
     sliders.forEach((sliderId, index) => {
         const slider = document.getElementById(sliderId);
         if (slider) {
-            showSlides(slideIndexes[index], index + 1); // Afficher la première slide
-            startAutoSlide(index + 1); // Commencer le défilement automatique
+            showSlides(slideIndexes[index], index + 1);
+            startAutoSlide(index + 1);
 
-            // Détection des gestes de swipe
             let touchstartX = 0;
             let touchendX = 0;
 
             slider.addEventListener('touchstart', function(event) {
-                touchstartX = event.changedTouches[0].screenX; // Enregistrer la position initiale du toucher
-                stopAutoSlide(index + 1); // Arrêter le défilement automatique lors du début du swipe
-                userInteracted[index] = true; // Marquer le slider comme ayant été manipulé par l'utilisateur
+                touchstartX = event.changedTouches[0].screenX;
+                stopAutoSlide(index + 1);
+                userInteracted[index] = true;
             });
 
             slider.addEventListener('touchend', function(event) {
-                touchendX = event.changedTouches[0].screenX; // Enregistrer la position finale du toucher
-                handleGesture(index + 1); // Gérer le swipe
+                touchendX = event.changedTouches[0].screenX;
+                handleGesture(index + 1);
             });
 
             function handleGesture(no) {
                 if (touchendX < touchstartX) {
                     slideIndexes[no - 1]++;
-                    showSlides(slideIndexes[no - 1], no); // Swipe vers la gauche
+                    showSlides(slideIndexes[no - 1], no);
                 }
                 if (touchendX > touchstartX) {
                     slideIndexes[no - 1]--;
-                    showSlides(slideIndexes[no - 1], no); // Swipe vers la droite
+                    showSlides(slideIndexes[no - 1], no);
                 }
             }
 
-            // Gérer le clic sur l'image pour arrêter le slider et rediriger
             slider.querySelectorAll('.slide a').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    stopAutoSlide(index + 1); // Arrêter le défilement automatique
-                    userInteracted[index] = true; // Marquer le slider comme ayant été manipulé par l'utilisateur
-                    // Rediriger vers la page du produit (le lien href dans l'élément <a> gère cela)
+                link.addEventListener('click', function() {
+                    stopAutoSlide(index + 1);
+                    userInteracted[index] = true;
                 });
             });
         }
     });
 
-    // Gestion du menu mobile
     const toggleMenu = document.querySelector('.toggle-menu');
     const navLinks = document.querySelector('.nav-links');
     const dropdowns = document.querySelectorAll('.dropdown');
@@ -123,7 +113,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Gestion des témoignages
     const testimonials = document.querySelectorAll('.testimonial');
     if (testimonials.length > 0) {
         let currentTestimonial = 0;
