@@ -1,48 +1,37 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const sliders = document.querySelectorAll('.slider-container');
-
-    sliders.forEach((slider, index) => {
-        let slideIndex = 0;
-        const slides = slider.getElementsByClassName('slide');
-        const nextButton = slider.querySelector('.next');
-        const prevButton = slider.querySelector('.prev');
-
-        function showSlides(n) {
-            slideIndex += n;
-            if (slideIndex >= slides.length) {
-                slideIndex = 0;
-            }
-            if (slideIndex < 0) {
-                slideIndex = slides.length - 1;
-            }
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            slides[slideIndex].style.display = "block";
-        }
-
-        nextButton.addEventListener('click', () => {
-            showSlides(1);
-        });
-
-        prevButton.addEventListener('click', () => {
-            showSlides(-1);
-        });
-
-        // Auto slide
-        setInterval(() => {
-            showSlides(1);
-        }, 5000); // Change slide every 5 seconds
-
-        // Initialize slider
-        showSlides(0);
-    });
-
-    // Mobile menu toggle
+    // Menu Hamburger
     const toggleMenu = document.querySelector('.toggle-menu');
     const navLinks = document.querySelector('.nav-links');
 
     toggleMenu.addEventListener('click', function() {
         navLinks.classList.toggle('active');
     });
+
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.toggle-menu') && !e.target.closest('.nav-links')) {
+            navLinks.classList.remove('active');
+        }
+    });
+
+    // Slider
+    const slider = document.querySelector('.slider');
+    const slides = document.querySelector('.slides');
+    const slide = document.querySelectorAll('.slide');
+    let index = 0;
+
+    document.querySelector('.next').addEventListener('click', () => {
+        index = (index + 1) % slide.length;
+        slides.style.transform = `translateX(${-index * 100}%)`;
+    });
+
+    document.querySelector('.prev').addEventListener('click', () => {
+        index = (index - 1 + slide.length) % slide.length;
+        slides.style.transform = `translateX(${-index * 100}%)`;
+    });
+
+    // Auto Slide
+    setInterval(() => {
+        index = (index + 1) % slide.length;
+        slides.style.transform = `translateX(${-index * 100}%)`;
+    }, 5000);
 });
