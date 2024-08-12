@@ -67,10 +67,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
 
-            // Désactiver la navigation du slider sur clic
-            slider.querySelectorAll('.slide').forEach(slide => {
-                slide.addEventListener('click', function(e) {
-                    e.stopPropagation(); // Empêche la propagation de l'événement de clic à la navigation du slider
+            // Gérer le clic sur l'image pour arrêter le slider et rediriger
+            slider.querySelectorAll('.slide a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    stopAutoSlide(index + 1); // Arrêter le défilement automatique
+                    userInteracted[index] = true; // Marquer le slider comme ayant été manipulé par l'utilisateur
+                    // Rediriger vers la page du produit (le lien href dans l'élément <a> gère cela)
                 });
             });
         }
