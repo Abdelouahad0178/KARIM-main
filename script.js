@@ -18,41 +18,43 @@ document.addEventListener('DOMContentLoaded', function() {
         slides[slideIndexes[no - 1] - 1].style.display = "block"; // Afficher la slide actuelle
     }
 
-    // Fonction pour faire défiler les slides automatiquement toutes les 4 secondes
+    // Fonction pour faire défiler les slides automatiquement toutes les 5 secondes
     function autoSlide(no) {
         autoSlideIntervals[no - 1] = setInterval(function() {
             slideIndexes[no - 1]++;
             showSlides(slideIndexes[no - 1], no);
-        }, 4000);
+        }, 5000);
     }
 
     // Initialisation des sliders et configuration du swipe
     sliders.forEach((sliderId, index) => {
-        showSlides(slideIndexes[index], index + 1); // Afficher la première slide
-        autoSlide(index + 1); // Commencer le défilement automatique
-
-        // Détection des gestes de swipe
-        let touchstartX = 0;
-        let touchendX = 0;
         const slider = document.getElementById(sliderId);
+        if (slider) {
+            showSlides(slideIndexes[index], index + 1); // Afficher la première slide
+            autoSlide(index + 1); // Commencer le défilement automatique
 
-        slider.addEventListener('touchstart', function(event) {
-            touchstartX = event.changedTouches[0].screenX; // Enregistrer la position initiale du toucher
-        });
+            // Détection des gestes de swipe
+            let touchstartX = 0;
+            let touchendX = 0;
 
-        slider.addEventListener('touchend', function(event) {
-            touchendX = event.changedTouches[0].screenX; // Enregistrer la position finale du toucher
-            handleGesture(index + 1); // Gérer le swipe
-        });
+            slider.addEventListener('touchstart', function(event) {
+                touchstartX = event.changedTouches[0].screenX; // Enregistrer la position initiale du toucher
+            });
 
-        function handleGesture(no) {
-            if (touchendX < touchstartX) {
-                slideIndexes[no - 1]++;
-                showSlides(slideIndexes[no - 1], no); // Swipe vers la gauche
-            }
-            if (touchendX > touchstartX) {
-                slideIndexes[no - 1]--;
-                showSlides(slideIndexes[no - 1], no); // Swipe vers la droite
+            slider.addEventListener('touchend', function(event) {
+                touchendX = event.changedTouches[0].screenX; // Enregistrer la position finale du toucher
+                handleGesture(index + 1); // Gérer le swipe
+            });
+
+            function handleGesture(no) {
+                if (touchendX < touchstartX) {
+                    slideIndexes[no - 1]++;
+                    showSlides(slideIndexes[no - 1], no); // Swipe vers la gauche
+                }
+                if (touchendX > touchstartX) {
+                    slideIndexes[no - 1]--;
+                    showSlides(slideIndexes[no - 1], no); // Swipe vers la droite
+                }
             }
         }
     });
@@ -76,18 +78,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const dropdownMenu = dropdown.querySelector('.dropdown-menu');
         const dropdownLink = dropdown.querySelector('a');
 
-        dropdownLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+        if (dropdownLink && dropdownMenu) {
+            dropdownLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
 
-            document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                if (menu !== dropdownMenu) {
-                    menu.style.display = 'none';
-                }
+                document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    if (menu !== dropdownMenu) {
+                        menu.style.display = 'none';
+                    }
+                });
+
+                dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
             });
-
-            dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
-        });
+        }
     });
 
     document.addEventListener('click', function(e) {
