@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let slideIndexes = [1, 1, 1];
     const sliders = ["slider1", "slider2", "slider3"];
     let autoSlideIntervals = [];
+    let userInteracted = [false, false, false]; // Indicateur d'interaction utilisateur pour chaque slider
 
     // Fonction pour afficher la slide actuelle
     function showSlides(n, no) {
@@ -18,12 +19,19 @@ document.addEventListener('DOMContentLoaded', function() {
         slides[slideIndexes[no - 1] - 1].style.display = "block"; // Afficher la slide actuelle
     }
 
-    // Fonction pour faire défiler les slides automatiquement toutes les 5 secondes
-    function autoSlide(no) {
-        autoSlideIntervals[no - 1] = setInterval(function() {
-            slideIndexes[no - 1]++;
-            showSlides(slideIndexes[no - 1], no);
-        }, 5000);
+    // Fonction pour démarrer le défilement automatique
+    function startAutoSlide(no) {
+        if (!userInteracted[no - 1]) {
+            autoSlideIntervals[no - 1] = setInterval(function() {
+                slideIndexes[no - 1]++;
+                showSlides(slideIndexes[no - 1], no);
+            }, 5000);
+        }
+    }
+
+    // Fonction pour arrêter le défilement automatique
+    function stopAutoSlide(no) {
+        clearInterval(autoSlideIntervals[no - 1]);
     }
 
     // Initialisation des sliders et configuration du swipe
@@ -31,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const slider = document.getElementById(sliderId);
         if (slider) {
             showSlides(slideIndexes[index], index + 1); // Afficher la première slide
-            autoSlide(index + 1); // Commencer le défilement automatique
+            startAutoSlide(index + 1); // Commencer le défilement automatique
 
             // Détection des gestes de swipe
             let touchstartX = 0;
@@ -39,6 +47,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             slider.addEventListener('touchstart', function(event) {
                 touchstartX = event.changedTouches[0].screenX; // Enregistrer la position initiale du toucher
+                stopAutoSlide(index + 1); // Arrêter le défilement automatique lors du début du swipe
+                userInteracted[index] = true; // Marquer le slider comme ayant été manipulé par l'utilisateur
             });
 
             slider.addEventListener('touchend', function(event) {
