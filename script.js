@@ -56,14 +56,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     showSlides(slideIndexes[no - 1], no); // Swipe vers la droite
                 }
             }
-        }
-    });
 
-    // Désactiver la navigation du slider sur clic et permettre uniquement la redirection
-    document.querySelectorAll('.slide a').forEach(function(link) {
-        link.addEventListener('click', function(e) {
-            e.stopPropagation(); // Empêche la propagation de l'événement de clic à d'autres éléments comme la navigation du slider
-        });
+            // Désactiver la navigation du slider sur clic
+            slider.querySelectorAll('.slide').forEach(slide => {
+                slide.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Empêche la propagation de l'événement de clic à la navigation du slider
+                });
+            });
+        }
     });
 
     // Gestion du menu mobile
