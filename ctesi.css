@@ -108,6 +108,8 @@ header {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
     z-index: 1000;
+    list-style: none;
+    flex-direction: column;
 }
 
 .dropdown-menu li {
@@ -355,12 +357,14 @@ footer .footer-content {
     .nav-links.active {
         transform: translateX(0);
         display: flex;
+        list-style: none;
     }
 
     .nav-links li {
         width: 100%;
         text-align: left;
         margin: 0;
+        list-style: none;
     }
 
     .nav-links a {
