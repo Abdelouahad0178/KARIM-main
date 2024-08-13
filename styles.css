@@ -105,34 +105,15 @@ header {
     z-index: 1000;
 }
 
-/* Display dropdown on hover */
-.nav-links li:hover .dropdown-menu {
-    display: block;
-}
+/* Hover effect for non-hamburger sizes */
+@media (min-width: 769px) {
+    .nav-links li:hover .dropdown-menu {
+        display: block;
+    }
 
-.search-and-cart {
-    display: flex;
-    align-items: center;
-}
-
-.search-and-cart input {
-    padding: 5px;
-    border-radius: 5px;
-    border: none;
-}
-
-.search-and-cart .search-btn, .search-and-cart .cart-btn {
-    background-color: var(--accent-color);
-    border: none;
-    padding: 8px 10px;
-    margin-left: 5px;
-    border-radius: 5px;
-    color: var(--light-text-color);
-    cursor: pointer;
-}
-
-.search-and-cart .search-btn:hover, .search-and-cart .cart-btn:hover {
-    background-color: darken(var(--accent-color), 10%);
+    .nav-links li:hover ~ li .dropdown-menu {
+        display: none; /* Ensure only one dropdown is open */
+    }
 }
 
 .toggle-menu {
@@ -158,12 +139,20 @@ header {
         z-index: 1000;
     }
 
+    
     .nav-links.active {
         display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-content: center;
+        justify-content: flex-start;
+        align-items: stretch;
     }
 
     .toggle-menu {
         display: block;
+        position: relative;
+        left: 41%;
     }
 
     .search-and-cart {

@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Menu Hamburger
     const toggleMenu = document.querySelector('.toggle-menu');
     const navLinks = document.querySelector('.nav-links');
+    const menuTitles = document.querySelectorAll('.menu-title');
 
     toggleMenu.addEventListener('click', function() {
         navLinks.classList.toggle('active');
@@ -10,7 +11,20 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.toggle-menu') && !e.target.closest('.nav-links')) {
             navLinks.classList.remove('active');
+            // Close any open dropdown menus
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.style.display = 'none';
+            });
         }
+    });
+
+    // Toggling dropdowns in hamburger mode
+    menuTitles.forEach(title => {
+        title.addEventListener('click', function(e) {
+            e.preventDefault();
+            const dropdownMenu = this.nextElementSibling;
+            dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+        });
     });
 
     // Slider
