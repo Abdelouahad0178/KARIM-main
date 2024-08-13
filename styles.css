@@ -105,6 +105,12 @@ header {
     z-index: 1000;
 }
 
+.blue{
+
+   color: var(--primary-color);
+
+
+}
 /* Hover effect for non-hamburger sizes */
 @media (min-width: 769px) {
     .nav-links li:hover .dropdown-menu {
