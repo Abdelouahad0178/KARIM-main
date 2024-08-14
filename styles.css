@@ -106,12 +106,10 @@ header {
     list-style: none;
 }
 
-.blue{
-
-   color: var(--primary-color);
-
-
+.blue {
+    color: var(--primary-color);
 }
+
 /* Hover effect for non-hamburger sizes */
 @media (min-width: 769px) {
     .nav-links li:hover .dropdown-menu {
@@ -121,6 +119,15 @@ header {
     .nav-links li:hover ~ li .dropdown-menu {
         display: none; /* Ensure only one dropdown is open */
     }
+
+
+    .slider {
+        position: relative;
+        max-width: 100%;
+        overflow: hidden;
+        margin-bottom: 10%;
+    }
+
 }
 
 .toggle-menu {
@@ -146,7 +153,6 @@ header {
         z-index: 1000;
     }
 
-    
     .nav-links.active {
         display: flex;
         flex-direction: column;
@@ -173,6 +179,7 @@ header {
     position: relative;
     max-width: 100%;
     overflow: hidden;
+    margin-bottom: 10%;
 }
 
 .slides {
@@ -183,6 +190,7 @@ header {
 .slide {
     min-width: 100%;
     box-sizing: border-box;
+    position: relative;
 }
 
 .slide img {
@@ -190,20 +198,29 @@ header {
     display: block;
 }
 
+.caption {
+    text-align: center;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 14px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
 .prev, .next {
     cursor: pointer;
     position: absolute;
     top: 50%;
     width: auto;
-    
     margin-top: -22px;
-    color:BLUE;
+    color: BLUE;
     font-weight: bold;
     font-size: 19px;
     transition: 0.6s ease;
     border-radius: 0 3px 3px 0;
     user-select: none;
-    
 }
 
 .next {

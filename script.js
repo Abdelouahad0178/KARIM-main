@@ -27,25 +27,34 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Slider
-    const slider = document.querySelector('.slider');
-    const slides = document.querySelector('.slides');
-    const slide = document.querySelectorAll('.slide');
-    let index = 0;
+    // Sliders - Handling multiple sliders independently with time offset
+    const sliders = document.querySelectorAll('.slider');
 
-    document.querySelector('.next').addEventListener('click', () => {
-        index = (index + 1) % slide.length;
-        slides.style.transform = `translateX(${-index * 100}%)`;
+    sliders.forEach((slider, sliderIndex) => {
+        const slides = slider.querySelector('.slides');
+        const slide = slider.querySelectorAll('.slide');
+        let index = 0;
+
+        // Function to show next slide
+        const showNextSlide = () => {
+            index = (index + 1) % slide.length;
+            slides.style.transform = `translateX(${-index * 100}%)`;
+        };
+
+        // Function to show previous slide
+        const showPrevSlide = () => {
+            index = (index - 1 + slide.length) % slide.length;
+            slides.style.transform = `translateX(${-index * 100}%)`;
+        };
+
+        // Add event listeners for the next and previous buttons
+        slider.querySelector('.next').addEventListener('click', showNextSlide);
+        slider.querySelector('.prev').addEventListener('click', showPrevSlide);
+
+        // Auto Slide with time offset
+        const initialDelay = sliderIndex * 2000; // Delay for each slider (2 seconds per slider)
+        setTimeout(() => {
+            setInterval(showNextSlide, 5000);
+        }, initialDelay);
     });
-
-    document.querySelector('.prev').addEventListener('click', () => {
-        index = (index - 1 + slide.length) % slide.length;
-        slides.style.transform = `translateX(${-index * 100}%)`;
-    });
-
-    // Auto Slide
-    setInterval(() => {
-        index = (index + 1) % slide.length;
-        slides.style.transform = `translateX(${-index * 100}%)`;
-    }, 5000);
 });
